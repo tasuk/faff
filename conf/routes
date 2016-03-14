@@ -1,1 +1,1 @@
-GET / controllers.WordPair.index
+GET / @controllers.WordPair.index
