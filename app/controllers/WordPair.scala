@@ -9,8 +9,8 @@ import models.LanguageRepository
 
 class WordPair @Inject() (languageRepository: LanguageRepository) extends Controller {
   def index = Action.async {
-    languageRepository.list.map { _ =>
-      Ok("Display word pairs. One day. Maybe.")
+    languageRepository.list.map { languages =>
+      Ok(views.html.home(languages))
     }
   }
 

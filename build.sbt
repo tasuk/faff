@@ -2,7 +2,7 @@ name := "false-and-funny-friends"
 
 version := "0.0.0"
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala)
+lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtTwirl)
 
 libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.34"
 libraryDependencies += "com.typesafe.play" %% "play-slick" % "1.1.1"

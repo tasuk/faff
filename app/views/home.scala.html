@@ -1,0 +1,9 @@
+@(languages: Seq[Language])
+
+@layout("Home") {
+  <ul>
+  @for(language <- languages) {
+    <li>@language.name (@language.code)</li>
+  }
+  </ul>
+}
