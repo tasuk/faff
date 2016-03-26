@@ -1,23 +1,23 @@
 package models
 
 case class User(
-  id: Option[Long] = None,
+  id: Option[Int] = None,
   name: String,
   email: String)
 
 case class Language(
-  id: Option[Long] = None,
+  id: Option[Int] = None,
   code: String,
   name: String)
 
 case class LanguagePair(
-  id: Option[Long] = None,
+  id: Option[Int] = None,
   fromLanguage: Language,
   toLanguage: Language,
-  maintainers: List[User])
+  maintainers: Option[List[User]])
 
 case class WordPair(
-  id: Option[Long] = None,
+  id: Option[Int] = None,
   fromWord: String,
   toWord: String,
   languagePair: LanguagePair,

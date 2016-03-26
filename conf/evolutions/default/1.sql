@@ -19,7 +19,7 @@ CREATE TABLE Language (
 ENGINE = InnoDB;
 
 CREATE TABLE LanguagePair (
-  id INT NOT NULL,
+  id INT NOT NULL AUTO_INCREMENT,
   fromLanguageId INT NOT NULL,
   toLanguageId INT NOT NULL,
   PRIMARY KEY (id),
@@ -35,7 +35,7 @@ CREATE TABLE LanguagePair (
 ENGINE = InnoDB;
 
 CREATE TABLE LanguagePairMaintainer (
-  languagePairId INT NOT NULL,
+  languagePairId INT NOT NULL AUTO_INCREMENT,
   userId INT NOT NULL,
   PRIMARY KEY (languagePairId, userId),
   INDEX fk_LanguagePairMaintainer_User (userId ASC),
@@ -48,7 +48,7 @@ CREATE TABLE LanguagePairMaintainer (
 ENGINE = InnoDB;
 
 CREATE TABLE WordPair (
-  id INT NOT NULL,
+  id INT NOT NULL AUTO_INCREMENT,
   languagePair INT NOT NULL,
   fromWord VARCHAR(255) NOT NULL,
   toWord VARCHAR(255) NOT NULL,

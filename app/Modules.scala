@@ -7,5 +7,6 @@ import dao._
 class ApplicationModule extends AbstractModule {
   def configure() = {
     bind(classOf[LanguageRepository]).to(classOf[LanguageDAO])
+    bind(classOf[LanguagePairRepository]).to(classOf[LanguagePairDAO])
   }
 }

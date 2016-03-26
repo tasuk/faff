@@ -1,9 +1,9 @@
-@(languages: Seq[Language])
+@(languagePairs: Seq[LanguagePair])
 
 @layout("Home") {
   <ul>
-  @for(language <- languages) {
-    <li>@language.name (@language.code)</li>
+  @for(languagePair <- languagePairs) {
+    <li>@languagePair.fromLanguage.code &ndash; @languagePair.toLanguage.code</li>
   }
   </ul>
 }

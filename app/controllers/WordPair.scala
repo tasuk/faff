@@ -6,11 +6,16 @@ import play.api.mvc._
 
 import models.Language
 import models.LanguageRepository
+import models.LanguagePairRepository
 
-class WordPair @Inject() (languageRepository: LanguageRepository) extends Controller {
+class WordPair @Inject() (
+    languageRepository: LanguageRepository,
+    languagePairRepository: LanguagePairRepository)
+    extends Controller {
+
   def index = Action.async {
-    languageRepository.list.map { languages =>
-      Ok(views.html.home(languages))
+    languagePairRepository.list.map { languagePairs =>
+      Ok(views.html.home(languagePairs))
     }
   }
 
