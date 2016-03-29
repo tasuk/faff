@@ -8,12 +8,18 @@ import models.Language
 import models.LanguageRepository
 import models.LanguagePairRepository
 
-class WordPair @Inject() (
+class Pick @Inject() (
     languageRepository: LanguageRepository,
     languagePairRepository: LanguagePairRepository)
     extends Controller {
 
-  def index = Action.async {
+  def language = Action.async {
+    languagePairRepository.list.map { languagePairs =>
+      Ok(views.html.home(languagePairs))
+    }
+  }
+
+  def languagePair(language: String) = Action.async {
     languagePairRepository.list.map { languagePairs =>
       Ok(views.html.home(languagePairs))
     }

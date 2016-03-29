@@ -1,1 +1,2 @@
-GET / @controllers.WordPair.index
+GET     /                           @controllers.Pick.language
+GET     /:language                  @controllers.Pick.languagePair(language: String)
