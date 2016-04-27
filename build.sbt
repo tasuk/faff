@@ -14,4 +14,6 @@ libraryDependencies += specs2 % Test
 resolvers += "Typesafe repository" at "https://repo.typesafe.com/typesafe/releases/"
 resolvers += "Scalaz Bintray Repo" at "http://dl.bintray.com/scalaz/releases"
 
+javaOptions in Test += "-Dconfig.file=conf/application-test.conf"
+
 autoAPIMappings := true

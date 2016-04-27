@@ -14,13 +14,24 @@ case class LanguagePairRow(
   fromLanguageId: Int,
   toLanguageId: Int)
 
-class LanguagePairDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvider)
-    extends LanguageComponent with HasDatabaseConfigProvider[JdbcProfile] with LanguagePairRepository {
-
+trait LanguagePairComponent { self: HasDatabaseConfigProvider[JdbcProfile] =>
   import driver.api._
 
-  private val languages = TableQuery[LanguageTable]
-  private val languagePairs = TableQuery[LanguagePairTable]
+  class LanguagePairTable(tag: Tag) extends Table[LanguagePairRow](tag, "LanguagePair") {
+    def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
+    def fromLanguageId = column[Int]("fromLanguageId")
+    def toLanguageId = column[Int]("toLanguageId")
+
+    def * = (id, fromLanguageId, toLanguageId) <> (LanguagePairRow.tupled, LanguagePairRow.unapply _)
+  }
+
+  val languagePairs = TableQuery[LanguagePairTable]
+}
+
+class LanguagePairDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvider)
+    extends LanguageComponent with LanguagePairComponent with HasDatabaseConfigProvider[JdbcProfile] with LanguagePairRepository {
+
+  import driver.api._
 
   def insert(languagePair: LanguagePair) =
     db.run(languagePairs += LanguagePairRow(
@@ -45,13 +56,5 @@ class LanguagePairDAO @Inject() (protected val dbConfigProvider: DatabaseConfigP
         )
       }
     )
-  }
-
-  class LanguagePairTable(tag: Tag) extends Table[LanguagePairRow](tag, "LanguagePair") {
-    def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
-    def fromLanguageId = column[Int]("fromLanguageId")
-    def toLanguageId = column[Int]("toLanguageId")
-
-    def * = (id, fromLanguageId, toLanguageId) <> (LanguagePairRow.tupled, LanguagePairRow.unapply _)
   }
 }

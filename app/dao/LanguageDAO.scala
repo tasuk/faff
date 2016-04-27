@@ -23,14 +23,14 @@ trait LanguageComponent { self: HasDatabaseConfigProvider[JdbcProfile] =>
 
     def * = (id, code, name) <> (LanguageRow.tupled, LanguageRow.unapply _)
   }
+
+  val languages = TableQuery[LanguageTable]
 }
 
 class LanguageDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvider)
     extends LanguageComponent with HasDatabaseConfigProvider[JdbcProfile] with LanguageRepository {
 
   import driver.api._
-
-  private val languages = TableQuery[LanguageTable]
 
   def insert(language: Language) =
     db.run(languages += LanguageRow(
