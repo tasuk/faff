@@ -22,17 +22,13 @@ trait Fixtures extends Inject {
     val insertedLanguages: Future[List[Language]] = Future.sequence(languages.map(languageRepository.insert(_)))
 
     insertedLanguages andThen {
-      case Success(i) => {
-        i match {
-          case List(lang1, lang2) => {
-            val languagePair = LanguagePair(
-              fromLanguage = lang1,
-              toLanguage = lang2,
-              maintainers = None)
+      case Success(lang) => {
+        val languagePair = LanguagePair(
+          fromLanguage = lang(0),
+          toLanguage = lang(1),
+          maintainers = None)
 
-            languagePairRepository.insert(languagePair)
-          }
-        }
+        languagePairRepository.insert(languagePair)
       }
     }
   }
