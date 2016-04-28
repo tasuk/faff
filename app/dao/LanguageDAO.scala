@@ -34,7 +34,7 @@ class LanguageDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvi
 
   def insert(language: Language) =
     db.run(languages += LanguageRow(
-      id = 0,
+      id = language.id.getOrElse(0),
       code = language.code,
       name = language.name))
 
@@ -44,4 +44,7 @@ class LanguageDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvi
         row => Language(Option(row.id), row.code, row.name)
       }
     )
+
+  def delete =
+    db.run(languages.delete)
 }

@@ -17,6 +17,9 @@ class PickSpec extends Specification with BeforeEach with Inject {
   val languagePairRepository = inject[LanguagePairRepository]
 
   def before() = {
+    languageRepository.delete
+    languagePairRepository.delete
+
     Fixtures.languages.map(_ => languageRepository.insert(_))
     Fixtures.languagePairs.map(_ => languagePairRepository.insert(_))
   }

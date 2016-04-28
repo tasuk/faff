@@ -35,7 +35,7 @@ class LanguagePairDAO @Inject() (protected val dbConfigProvider: DatabaseConfigP
 
   def insert(languagePair: LanguagePair) =
     db.run(languagePairs += LanguagePairRow(
-      id = 0,
+      id = languagePair.id.getOrElse(0),
       fromLanguageId = languagePair.fromLanguage.id.getOrElse(0),
       toLanguageId = languagePair.toLanguage.id.getOrElse(0)))
 
@@ -57,4 +57,7 @@ class LanguagePairDAO @Inject() (protected val dbConfigProvider: DatabaseConfigP
       }
     )
   }
+
+  def delete =
+    db.run(languagePairs.delete)
 }
