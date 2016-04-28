@@ -1,5 +1,6 @@
 package dao
 
+import scala.concurrent._
 import javax.inject.Inject
 import play.api.db.slick.DatabaseConfigProvider
 import play.api.db.slick.HasDatabaseConfigProvider
@@ -32,11 +33,17 @@ class LanguageDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvi
 
   import driver.api._
 
-  def insert(language: Language) =
-    db.run(languages += LanguageRow(
-      id = language.id.getOrElse(0),
+  def insert(language: Language) = {
+    val query = (languages returning languages.map(_.id) into (
+      (lang, id) => Language(Option(id), lang.code, lang.name)
+    ))
+
+    val insertedLang = query += LanguageRow(
+      id = 0,
       code = language.code,
-      name = language.name))
+      name = language.name)
+    db.run(insertedLang)
+  }
 
   def list =
     db.run(languages.result).map(
@@ -44,6 +51,13 @@ class LanguageDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvi
         row => Language(Option(row.id), row.code, row.name)
       }
     )
+
+  def findByCode(code: String) = {
+    val result = db.run(languages.filter(_.code === code).result.headOption)
+    result.flatMap {
+      case Some(row) => Future(Option(Language(Option(row.id), row.code, row.name)))
+    }
+  }
 
   def delete =
     db.run(languages.delete)

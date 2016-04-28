@@ -10,26 +10,15 @@ import play.api.test.Helpers._
 import models._
 import test.setup._
 
-class PickSpec extends Specification with BeforeEach with Inject {
+class PickSpec extends Specification with BeforeEach with Fixtures {
   sequential
-
-  val languageRepository = inject[LanguageRepository]
-  val languagePairRepository = inject[LanguagePairRepository]
-
-  def before() = {
-    languageRepository.delete
-    languagePairRepository.delete
-
-    Fixtures.languages.map(_ => languageRepository.insert(_))
-    Fixtures.languagePairs.map(_ => languagePairRepository.insert(_))
-  }
 
   "the homepage" should {
     "list the language pairs" in new WithApplication {
       val home = route(FakeRequest(GET, "/")).get
 
       status(home) must equalTo(OK)
-      contentAsString(home) must contain ("cs-CZ")
+      contentAsString(home) must contain ("cs-cz")
     }
   }
 }

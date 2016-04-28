@@ -1,11 +1,39 @@
 package test.setup
 
+import scala.concurrent._
+import scala.concurrent.duration._
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.util._
+
 import models._
 
-object Fixtures {
-  val lang_cs = Language(id=Option(1), code="cs-cz", name="Czech")
-  val lang_pl = Language(id=Option(2), code="pl-pl", name="Polish")
-  val languages = List(lang_cs, lang_pl)
+trait Fixtures extends Inject {
+  val languageRepository = inject[LanguageRepository]
+  val languagePairRepository = inject[LanguagePairRepository]
 
-  val languagePairs = List(LanguagePair(id=Option(1), fromLanguage=lang_cs, toLanguage=lang_pl, maintainers=Option(List[User]())))
+  val languages = List(
+    Language(code="cs-cz", name="Czech"),
+    Language(code="pl-pl", name="Polish")
+  )
+
+  def before() = {
+    val deletes = Future.sequence(List(languageRepository.delete, languagePairRepository.delete))
+
+    val insertedLanguages: Future[List[Language]] = Future.sequence(languages.map(languageRepository.insert(_)))
+
+    insertedLanguages andThen {
+      case Success(i) => {
+        i match {
+          case List(lang1, lang2) => {
+            val languagePair = LanguagePair(
+              fromLanguage = lang1,
+              toLanguage = lang2,
+              maintainers = None)
+
+            languagePairRepository.insert(languagePair)
+          }
+        }
+      }
+    }
+  }
 }
