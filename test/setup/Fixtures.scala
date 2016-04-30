@@ -18,9 +18,12 @@ trait Fixtures extends Inject {
   )
 
   def before() = {
-    val deletes: Future[List[Int]] = Future.sequence(List(languageRepository.delete, languagePairRepository.delete))
+    val deleteLanguagePairs: Future[Int] = languagePairRepository.delete
+    val deleteLanguages: Future[Int] = deleteLanguagePairs.flatMap {
+      case _ => languageRepository.delete
+    }
 
-    val insertedLanguages: Future[List[Language]] = deletes.flatMap {
+    val insertedLanguages: Future[List[Language]] = deleteLanguages.flatMap {
       case _ => Future.sequence(languages.map(languageRepository.insert(_)))
     }
 
