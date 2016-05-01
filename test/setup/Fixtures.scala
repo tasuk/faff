@@ -31,8 +31,7 @@ trait Fixtures extends Inject {
       case languages => {
         val languagePair = LanguagePair(
           fromLanguage = languages(0),
-          toLanguage = languages(1),
-          maintainers = None)
+          toLanguage = languages(1))
 
         languagePairRepository.insert(languagePair)
       }
