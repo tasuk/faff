@@ -37,6 +37,6 @@ trait Fixtures extends Inject {
       }
     }
 
-    Await.result(insertedLanguages, 1 seconds);
+    Await.result(insertedLanguagePairs, 1 seconds);
   }
 }
