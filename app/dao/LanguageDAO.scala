@@ -56,6 +56,7 @@ class LanguageDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvi
     val result = db.run(languages.filter(_.code === code).result.headOption)
     result.flatMap {
       case Some(row) => Future(Option(Language(Option(row.id), row.code, row.name)))
+      case None => Future(None)
     }
   }
 
