@@ -51,8 +51,7 @@ class LanguagePairDAO @Inject() (protected val dbConfigProvider: DatabaseConfigP
         case (id, fromLanguageCode, fromLanguageName, toLanguageCode, toLanguageName) => LanguagePair(
           id = Option(id),
           fromLanguage = Language(code = fromLanguageCode, name = fromLanguageName),
-          toLanguage = Language(code = toLanguageCode, name = toLanguageName),
-          maintainers = Option(List[User]())
+          toLanguage = Language(code = toLanguageCode, name = toLanguageName)
         )
       }
     )

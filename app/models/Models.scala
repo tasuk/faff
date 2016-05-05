@@ -14,7 +14,7 @@ case class LanguagePair(
   id: Option[Int] = None,
   fromLanguage: Language,
   toLanguage: Language,
-  maintainers: Option[List[User]] = None)
+  maintainers: List[User] = List[User]())
 
 case class WordPair(
   id: Option[Int] = None,
