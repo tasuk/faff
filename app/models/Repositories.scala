@@ -14,3 +14,9 @@ trait LanguagePairRepository {
   def list: Future[Seq[LanguagePair]]
   def delete: Future[Int]
 }
+
+trait WordPairRepository {
+  def insert(wordPair: WordPair): Future[Int]
+  def list(languagePair: LanguagePair): Future[Seq[WordPair]]
+  def delete: Future[Int]
+}
