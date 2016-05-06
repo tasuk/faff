@@ -53,8 +53,9 @@ class LanguageDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvi
     )
 
   def findByCode(code: String) = {
-    val result = db.run(languages.filter(_.code === code).result.headOption)
-    result.flatMap {
+    val query = languages.filter(_.code === code)
+
+    db.run(query.result.headOption).flatMap {
       case Some(row) => Future(Option(Language(Option(row.id), row.code, row.name)))
       case None => Future(None)
     }
