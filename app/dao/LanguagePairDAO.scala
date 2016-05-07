@@ -1,5 +1,6 @@
 package dao
 
+import scala.concurrent._
 import javax.inject.Inject
 import play.api.db.slick.DatabaseConfigProvider
 import play.api.db.slick.HasDatabaseConfigProvider
@@ -55,6 +56,15 @@ class LanguagePairDAO @Inject() (protected val dbConfigProvider: DatabaseConfigP
         )
       }
     )
+  }
+
+  def findByLanguages(fromLang: Language, toLang: Language) = {
+    val query = languagePairs.filter(_.fromLanguageId === fromLang.id)
+
+    db.run(query.result.headOption).flatMap {
+      case Some(row) => Future(Option(LanguagePair(Option(row.id), fromLang, toLang)))
+      case None => Future(None)
+    }
   }
 
   def delete =
