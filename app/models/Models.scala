@@ -21,4 +21,5 @@ case class WordPair(
   fromWord: String,
   toWord: String,
   languagePair: LanguagePair,
-  createdBy: Option[User] = None)
+  createdBy: Option[User] = None,
+  approved: Boolean = true)

@@ -1,0 +1,9 @@
+@(wordPairs: Seq[WordPair])
+
+@layout("") {
+  <ul>
+  @for(wordPair <- wordPairs) {
+    <li>@wordPair.fromWord &ndash; @wordPair.toWord</li>
+  }
+  </ul>
+}

@@ -14,15 +14,15 @@ class Pick @Inject() (
 ) extends Controller {
 
   def languagePair = Action.async {
-    languagePairRepository.list.map { languagePairs =>
-      Ok(views.html.home(languagePairs))
+    languagePairRepository.list.map {
+      languagePairs => Ok(views.html.home(languagePairs))
     }
   }
 
   def insert = Action.async {
     val lang = Language(code = "cs-cz", name = "Czech")
-    languageRepository.insert(lang).map { _ =>
-      Ok("Inserted a language")
+    languageRepository.insert(lang).map {
+      _ => Ok("Inserted a language")
     }
   }
 }

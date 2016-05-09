@@ -49,17 +49,17 @@ ENGINE = InnoDB;
 
 CREATE TABLE WordPair (
   id INT NOT NULL AUTO_INCREMENT,
-  languagePair INT NOT NULL,
+  languagePairId INT NOT NULL,
   fromWord VARCHAR(255) NOT NULL,
   toWord VARCHAR(255) NOT NULL,
   author INT NULL,
   approved TINYINT(1) NOT NULL,
   PRIMARY KEY (id),
   UNIQUE INDEX fromWord_UNIQUE (fromWord),
-  INDEX fk_WordPair_LanguagePair (languagePair),
+  INDEX fk_WordPair_LanguagePair (languagePairId),
   INDEX fk_WordPair_User (author),
   CONSTRAINT fk_WordPair_LanguagePair
-    FOREIGN KEY (languagePair)
+    FOREIGN KEY (languagePairId)
     REFERENCES LanguagePair (id),
   CONSTRAINT fk_WordPair_User
     FOREIGN KEY (author)

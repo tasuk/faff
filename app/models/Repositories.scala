@@ -10,7 +10,7 @@ trait LanguageRepository {
 }
 
 trait LanguagePairRepository {
-  def insert(languagePair: LanguagePair): Future[Int]
+  def insert(languagePair: LanguagePair): Future[LanguagePair]
   def findByLanguages(fromLang: Language, toLang: Language): Future[Option[LanguagePair]]
   def list: Future[Seq[LanguagePair]]
   def delete: Future[Int]

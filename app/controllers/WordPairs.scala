@@ -33,7 +33,8 @@ class WordPairs @Inject() (
       case _ => Future(Seq[WordPair]())
     }
 
-    // TODO view word pairs
-    Future(Ok("Hello."))
+    wordPairs.map {
+      wordPairs => Ok(views.html.wordPairs(wordPairs))
+    }
   }
 }

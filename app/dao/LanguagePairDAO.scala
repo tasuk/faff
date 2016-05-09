@@ -34,11 +34,18 @@ class LanguagePairDAO @Inject() (protected val dbConfigProvider: DatabaseConfigP
 
   import driver.api._
 
-  def insert(languagePair: LanguagePair) =
-    db.run(languagePairs += LanguagePairRow(
+  def insert(languagePair: LanguagePair) = {
+    val query = (languagePairs returning languagePairs.map(_.id) into (
+      (lp, id) => LanguagePair(Option(id), languagePair.fromLanguage, languagePair.toLanguage)
+    ))
+
+    val insertedLanguagePair = query += LanguagePairRow(
       id = languagePair.id.getOrElse(0),
       fromLanguageId = languagePair.fromLanguage.id.getOrElse(0),
-      toLanguageId = languagePair.toLanguage.id.getOrElse(0)))
+      toLanguageId = languagePair.toLanguage.id.getOrElse(0))
+
+    db.run(insertedLanguagePair)
+  }
 
   def list = {
     val query = for {
